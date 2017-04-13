@@ -1,0 +1,1 @@
+Simple application to read text quickly
