@@ -1,0 +1,23 @@
+.dark-background-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.hide {
+  display: none;
+}
+
+.word-on-background h1 {
+  margin-top: 15%;
+  color: white;
+  font-size: 60px;
+}
+
+.text-content {
+  max-width: 100%;
+}
