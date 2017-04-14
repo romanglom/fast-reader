@@ -21,3 +21,31 @@
 .text-content {
   max-width: 100%;
 }
+
+.form-text {
+  .input-number {
+    width: 100%;
+    display: inline-block;
+
+    input {
+      border-radius: 0px;
+      height: 65px;
+      width: 20%;
+      display: inline-block;
+      font-size: 40px;
+      float:right;
+    }
+  }
+
+  label {
+    font-size: 25px;
+    margin-top:10px;
+  }
+
+  .input-button {
+    width: 100%;
+    border-radius: 0px;
+    height: 65px;
+    font-size: 30px;
+  }
+}

@@ -3,6 +3,7 @@ import React from 'react';
 
 import {Col, FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap';
 import WordComponent from './WordComponent';
+import wordUtils from './utils/word-utils';
 
 const MILLISECONDS_IN_A_MINUTE = 60000;
 
@@ -20,7 +21,7 @@ class ReaderComponent extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
         this.handleDelayChange = this.handleDelayChange.bind(this);
-        this.start = this.start.bind(this);
+        this.showWord = this.showWord.bind(this);
         this.finish = this.finish.bind(this);
         this.getWordsPerMinute = this.getWordsPerMinute.bind(this);
     }
@@ -44,19 +45,21 @@ class ReaderComponent extends React.Component {
         let indexWord = 0;
 
         this.setState({showWord: true, currentWord: "Get Ready..."}, () => {
-            setTimeout(() => this.start(words, indexWord), 1000);
+            setTimeout(() => this.showWord(words, indexWord), 1000, 0);
         });
     }
 
-    start(words, indexWord) {
+    showWord(words, indexWord, extraTime) {
+        if (words.length < indexWord) {
+            this.finish();
+            return;
+        }
+
+        let currentWord = words[indexWord];
+        let nextWordExtraTime = wordUtils.getExtraTime(currentWord);
         setTimeout(() => {
-            if (words.length > indexWord) {
-                let currentWord = words[indexWord];
-                this.setState({currentWord: currentWord}, () => this.start(words, ++indexWord));
-            } else {
-                this.finish();
-            }
-        }, this.state.wordDelay);
+            this.setState({currentWord: currentWord}, () => this.showWord(words, ++indexWord, nextWordExtraTime));
+        }, this.state.wordDelay + extraTime);
     }
 
     finish() {
@@ -71,19 +74,23 @@ class ReaderComponent extends React.Component {
         return (
             <div>
                 <Col md={12} className={this.state.showWord ? 'hide' : ''}>
-                    <form className="text-center" onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.handleSubmit} className="form-text">
                         <FormGroup controlId="formControlsTextarea">
                             <ControlLabel>Write or paste a text that you want to read fast</ControlLabel>
                             <FormControl componentClass="textarea" placeholder="Here!" className="text-content"
                                          rows={7} value={this.state.text} onChange={this.handleTextChange}/>
                         </FormGroup>
-                        <FormGroup>
-                            <ControlLabel>Time for each word in milliseconds. {this.getWordsPerMinute()} words per minute</ControlLabel>
+                        <FormGroup className="input-number">
+                            <ControlLabel>Time for each word in milliseconds </ControlLabel>
                             <FormControl type="number" min="1" max="60000" value={this.state.wordDelay}
                                          onChange={this.handleDelayChange}/>
                         </FormGroup>
-                        <Button type="submit" bsStyle="primary" bsSize="large">
-                            Do it!
+                        <FormGroup className="input-number">
+                            <ControlLabel>You will read approximately {this.getWordsPerMinute()} words per minute!</ControlLabel>
+                        </FormGroup>
+
+                        <Button type="submit" bsStyle="primary" bsSize="large" className="input-button">
+                            Read it!
                         </Button>
                     </form>
                 </Col>
