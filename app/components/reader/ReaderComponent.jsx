@@ -31,7 +31,7 @@ class ReaderComponent extends React.Component {
     }
 
     handleDelayChange(event) {
-        this.setState({wordDelay: event.target.value});
+        this.setState({wordDelay: parseInt(event.target.value)});
     }
 
     handleSubmit(event) {
@@ -45,7 +45,7 @@ class ReaderComponent extends React.Component {
         let indexWord = 0;
 
         this.setState({showWord: true, currentWord: "Get Ready..."}, () => {
-            setTimeout(() => this.showWord(words, indexWord), 1000, 0);
+            setTimeout(() => this.showWord(words, indexWord, 0), 1000, 0);
         });
     }
 

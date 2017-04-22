@@ -17301,7 +17301,7 @@ var ReaderComponent = function (_React$Component) {
     }, {
         key: 'handleDelayChange',
         value: function handleDelayChange(event) {
-            this.setState({ wordDelay: event.target.value });
+            this.setState({ wordDelay: parseInt(event.target.value) });
         }
     }, {
         key: 'handleSubmit',
@@ -17319,7 +17319,7 @@ var ReaderComponent = function (_React$Component) {
 
             this.setState({ showWord: true, currentWord: "Get Ready..." }, function () {
                 setTimeout(function () {
-                    return _this2.showWord(words, indexWord);
+                    return _this2.showWord(words, indexWord, 0);
                 }, 1000, 0);
             });
         }
